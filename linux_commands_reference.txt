@@ -1,0 +1,876 @@
+Bash Commands Reference Sheet for Linux Kernel 
+
+References:
+https://www.freecodecamp.org/news/the-linux-commands-handbook/#the-linux-chown-command
+https://www.youtube.com/watch?v=ZtqBQ68cfJc&t=1073s
+https://www.youtube.com/watch?v=SPwyp2NG-bE&t=639s
+
+- Why learn it?
+-- It's a necessity in the tech world. 
+-- Most programmers uses it
+-- It's faster than a gui
+-- It's available everywhere (except Windows, however it can be obtained with WSL2)
+
+- World of Operating Systems
+- There are two types over Operating systems: Unix and Windows;
+- Linux, Ubuntu, Android, Fedora, Red Hat, Debian, OSX, etc are Unix-based Operating Systems
+- Windows is it's own type of OS (meaning it has its own commands, system setup, everything!)
+- Unix is NOT free
+- Richard Stallman wanted to make an OS open source, but needed a kernel
+- A kernel is the piece that sits between the hardware and software. Meaning that the software tells the kernel what to do which in turn moves the physical pieces of hardward in the computer.
+- Therefore the official OS system is known as GNU while Linux is just the kernel that's a part of GNU
+- Unix OS are either True Unix, Unix-Like
+-- True Unix are OS that are certified and had to pay to become True Unix
+-- Unix-Like are OS that are not certified either because the company can't pay the pricy amount to be certified, or it's not certified for ethical reasons
+-- Linux Distributions are full Linux OS e.g. Ubuntu, Fedora, etc. 
+- What is Unix? GNU? Linux?
+- What is a shell?
+- How is Linux obtain for Mac and Windows Users 
+- What is a shell? A shell is a the outer layer of an OS that provides commands to it from the terminal
+-- Meaning it takes the command from the termianal and hands it to the OS to make sense of it all
+-- The terminal is just a program that runs the command line (bash shell) which is then inputted into the OS
+-- Terminal->Shell(Bash, (ZSHELL, FISH))->OS (Ubuntu)
+- Bash (Bourne-Again sh) is the most popular shell. It's a descendent of sh 
+-- You can create a .sh file (which includes linux commands) to automate tasks  
+
+# writes to file 
+>
+
+# appends to file
+>>
+
+# View .bashrc file
+# This file is what holds the commands for your terminal, which can be configured for any situation 
+# It is also good for including aliases 
+$ nano ~/.bashrc
+
+# nano /.bashrc
+alias lq="ls -al"
+alias openbash="nano ~/.bashrc"
+alias openenv="source /home/druestaples/temporary/venv36/bin/activate"
+
+# Create a variable for a command This is especially long commonds that you dont want to have to keep tying or reseaching history or using the up arrow keys
+alias
+$ alias dg="cat dogs.txt | wc -l"
+
+# Alias are usually saved in your .bashrc file 
+# A .bashrc file contains the settings for our terminal e.g. color, aliases, etc. 
+$ nano ~/.bashrc
+# Add code below to file
+alias ll = 'ls - al'
+$ ll
+>>> -rwxrwxrwx 1 druestaples druestaples   56 Apr  1 20:51 dogs.txt
+-rwxrwxrwx 1 druestaples druestaples   54 Apr 10 17:34 mybash.sh
+# If that doesnt work, try sourcing the .bashrc file 
+$ source .bashrc
+$ ll 
+>>> -rwxrwxrwx 1 druestaples druestaples   56 Apr  1 20:51 dogs.txt
+-rwxrwxrwx 1 druestaples druestaples   54 Apr 10 17:34 mybash.sh
+
+# Single quotes '' vs. double quotes ""
+# aliasing with them have different effects 
+$ alias lw="echo $PWD"
+>>>(Because I'm using double quotes the $PWD environment varaiable will always stay the same)
+$ alias lt='echo $PWD' 
+>>> (Single quotes means the $PWD environment variable will constantly update to the current value)
+# Example below
+$ lw 
+>>> drwxrwxrwx 1 druestaples druestaples 4096 Apr 10 00:10 rooms
+-rwxrwxrwx 1 druestaples druestaples  542 Apr  7 07:00 todo_bash.sh
+$ cd ..
+$ lw
+>>>drwxrwxrwx 1 druestaples druestaples 4096 Apr 10 00:10 rooms
+-rwxrwxrwx 1 druestaples druestaples  542 Apr  7 07:00 todo_bash.sh
+# Look above! Even though we moved back a directory, the alias still shows the same value 
+# This is because of us using double quotes
+# Now us lt
+$ lt
+>>> -rwxrwxrwx 1 druestaples druestaples   54 Apr 10 17:34 mybash.sh
+# Looking above, we can see that using single quotes is able to show to current environment variable 
+
+# Match Path name with ?
+# e.g ? matches one character, ?? matches two characters, etc.
+# Promptly delete .t files,
+>>> rm -i *.?
+
+# To run anything in background, include a "&" at the end your command, or hit control-Z while it's running to stop and save the job
+$ sleep 10 &
+OR 
+$ sleep 10
+# Hit control-Z
+$ jobs 
+>>>[1]-  Stopped                 sleep 30
+[2]   Running                 sleep 30 &
+[3]+  Stopped                 top
+# Notice job 2 is running. Whenever or ifever the program finishes, running "jobs" again will show it's done, then running "jobs" one more time and it won't be there anymore
+$ jobs 
+>>>[1]-  Stopped                 sleep 30
+[2]   Done                    sleep 30
+[3]+  Stopped                 top
+$ jobs 
+>>>[1]-  Stopped                 sleep 30
+[3]+  Stopped                 top
+# To quit a job, run job in foreground "e.g. fg 1", then type "control-C"
+# NOTE: control-Z stops a process and saves the job in the background, while control-C quits the program entirely
+
+# References the file 
+$ basename vehicles/bcycle.txt 
+>>> bcycle.txt 
+
+# Use the stopped programs above to re-run in the background using the job_id
+bg
+$ bg 2
+>>> # Runs top -o %MEM in background - meaning program is still running but we can't see it 
+
+# View file
+cat
+$ cat greet.txt
+>>hello
+hi
+
+# View files concatencated
+# cat greet.txt conclusion.txt
+>>hello
+hi
+goodbye
+see ya
+
+# Combine files into a new file
+cat bird.txt cat.txt dog.txt >> housepets.txt
+
+# Concatenate files and find word count, then save them to new file
+$ cat dog.txt bird.txt | wc >> animals.txt
+
+# List line numbers
+$ cat -n dog.txt
+>>>  1  retriever
+     2  pitbull
+     3  husky
+     4  great dane
+     5  great dane
+     6  husky
+     7  pitbull
+     8  retriever
+
+# Print file in terminal
+cat 
+
+# Change to home directory
+$ cd ~
+
+# Change to root directory
+$ cd /
+
+# Move back one directory
+cd ..
+# Move back two directories
+cd ../..
+
+# Change mode permissions e.g. drwxr-xr-x
+$ sudo chmod a+w file.txt 
+# First character is the type
+#   d -> directory
+#   l -> symbolic link 
+#   - -> file 
+# The other characters are split into three sections 
+# The first three are mode permissions for the user
+# The second set of three are mode permissions for the group 
+# The third set of three values are mode permissions for other users 
+# r -> read 
+# w -> write 
+# x -> executable 
+# - -> unreadable, unwritable, or unexecutable
+# to add permissions to user 
+$ sudo chmod g+rwx file.txt 
+# Above means we (root user) are giving mode permissions of read, write, and execute 
+# Removing permissions is similar to adding except we use a "-" instead 
+$ sudo chmod o-x file.txt 
+# Above means other users have been removed of executing a file 
+# We can also control permission with a set of numbers. This finite set represents the different options like read, write, execute, or some combinations of them.
+$ sudo chmod 777
+# Users, Groups, and Other users will be able to read, write, and execute. This is the value of 7 and each number represents the order of user, group, and other users
+
+# permissions - (used with chmod) when running an ls -l command, you can see the folder/file permissions listed with 10 digits
+$ ls -l
+>>> lrwxrwxrwx 1 druestaples druestaples    8 Apr 10 21:42 nw.txt -> orig.txt
+drwxrwxrwx 1 druestaples druestaples 4.0K Apr 10 00:10 rooms
+-rwxrwxrwx 1 druestaples druestaples  542 Apr  7 07:00 todo_bash.sh
+# The first symbol represents the type eg file, folder, link.
+# The rest of the 9 symbols are split into 3 sections which represent the user, group, and other users. 
+# E.g. (Type)(User)(Group)(Other Users)
+# Below are what each symbol means 
+d -> directory 
+l - > symbolic link 
+- -> regular file 
+
+r -> read 
+w -> write 
+x -> execute 
+- -> unexecutable
+
+# Example 1: lrwxrwxrwx
+# Meaning: Type: (Symbolic link) - User: (read, write, execute), - Group: (read, write, execute), - Other Users: (read, write, execute)
+
+# Example 2: drwxrwxrwx
+# Meaning: Type: (Directory) - User: (read, write, execute), - Group: (read, write, execute), - Other Users: (read, write, execute)
+
+# Example 3: -rwxrwxrwx
+# Meaning: Type: (Regular File) - User: (read, write, execute), - Group: (read, write, execute), - Other Users: (read, write, execute)
+ 
+# umask vs chmod
+# chmod, changes the mode permissions for a specific user, group, other users for the ALREADY EXISTED FILES
+# umask, changes the mode permissisons for files/folders that WILL BE CREATED IN THE FUTURE
+
+# Change Group 
+$ sudo chngrp
+
+# Change ownership of files 
+chown
+$ chown dade:druestaples /home/dadefiles/dade_file.txt 
+$ ls -al dadefiles/
+>>>-rw-rw-r-- 1 dade druestaples   23 Apr 12 20:05 dadefile.txt
+
+# Change ownership of folder
+chown
+$ chown dade:druestaples /home/dadefiles/
+$ ls -al 
+>>>-rw-rw-r-- 1 dade druestaples   23 Apr 12 20:05 dadefiles 
+
+# Change ownership of nested folder 
+chown
+$ chown -R dade:druestaples /home/dadefiles/
+$ ls -al 
+>>>-rw-rw-r-- 1 dade druestaples   23 Apr 12 20:05 dadefiles
+$ ls -al dadefiles/
+>>>-rw-rw-r-- 1 dade druestaples   23 Apr 12 20:05 dadefile.txt
+
+# Clears Terminal
+$ clear
+ 
+# Clears Terminal with rollback history
+$ clear -x
+
+# cp file or folder
+cp
+$ cp oldfile newfile
+$ ls 
+>>> oldfile newfile 
+
+# Displays date
+$ date
+>> Sun Mar 27 01:07:19 CDT 2022
+
+# Memory Allocation, displays how much space in the computer systems it takes up, 
+# as well as how much of it is actually in use, and the leftover space that is not being used
+$ df 
+
+diff
+# Difference between files - shows what was deleted and added
+$ diff dog.txt dogs.txt
+# Find file or directory
+# find only directories
+
+# References the directory 
+$ dirname vehicles/bcycle.txt 
+>> vehicles 
+
+# Show tags for commands 
+$ docker run -- help
+>>Usage:  docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+# Device Utility: Displays the file and folder sizes
+du
+
+# Displays anything 
+echo 
+$ echo "hello"
+>>> hello
+
+# Displays home directory
+$ echo ~
+>>>/home/druestaples
+
+# Displays root directory
+$ echo /
+
+# Evironment Variables
+# Print path 
+$ echo $PATH
+>>>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games
+
+# Print User 
+$ echo $User
+>>>druestaples
+
+# Pathname expansions - match different pathnames
+# Displays every folder and file whether it's nested from the current directory 
+$ echo *
+>>>dog.txt animals housepets lion.txt
+
+# Displays specified files based on string match 
+$ echo *.txt
+>>>dog.txt lion.txt
+
+# numbers and provid ranges
+$ echo {1..3}
+>>>1 2 3
+
+
+# Use the stopped programs above to re-run in the foregorund using the job_id
+fg
+$ fg 2
+>>> # Runs top -o %MEM in foreground - meaning the results are printed in the terminal
+
+$find . -type d
+>>>.
+./animals
+./animals/cats
+
+# Find all python files
+$ find . -name "*.py"
+>>>./main_snake.py
+./snake.py
+
+# find file or directory  (IMPORTANT: USE QUOTATIONS FOR FIND CHARACTERS)
+$ find animals -name "*"
+>>>animals
+animals/cats
+
+# find python files in a directory (eg animals directory)
+$ find animals -name "*.py"
+>>>animals/run.py
+
+# Find files with the number 8 in it
+$ find animals "*8*"
+>>>als -name "*8*"
+animals/108.txt
+animals/118.txt
+
+# find animals with an "8" in it and number the lines then save to file
+$ find animals -name "*8*" | cat -n >> animal8.csv
+>>>animal8.csv
+
+# find file or folder based on type 
+$ find -type 
+-type c
+              File is of type c:
+
+              b      block (buffered) special
+
+              c      character (unbuffered) special
+
+              d      directory
+
+              p      named pipe (FIFO)
+
+              f      regular file
+
+              l      symbolic link
+
+# find directory in current path (ie .)
+$ find . -type d -name "a*"
+>>>./animals
+
+# case insensitive matching 
+iname 
+$ find . -type d -iname "a*"
+>>>./animals
+./Ants
+
+# Add -or as a condition
+$ find . -type d -name "a*" -or -type d -name "d*"
+>>>./animals
+./doggos
+
+# Use -not to exclude 
+$ find . -type f -name "*i*"
+>>>./animal8.csv
+./animals/lion
+./bird.txt
+
+$ find . -type f -name "*i*" -not -name "*b*"
+>>>./animal8.csv
+./animals/lion
+
+# List filez with a size greater that 10 bytes
+$ find . -type f -name "*t*" -size +10c
+./bird.txt
+./dates.txt
+./days.txt
+./nums.txt
+
+# List filez with a size greater that 10 bytes and less than 30 bytes
+$ find . -type f -name "*t*" -size +10c -size -30c
+./bird.txt
+./nums.txt
+
+# Search files edited more than 3 days ago 
+$ find . -type f -mtime +3
+>>>./y.txt
+./z.txt
+
+# delete files edited more than an hour ago 
+$ find . -type f -mtime -1 delete
+
+# Use the "-exec" flag as a function to every result passed into it
+$ find . -type f -name "*i*" -exec cat {} \;
+# this will find all files in current directory with an "i" passed to the execution function which prints out the files
+
+# Other examples
+$ find . -type f -name "*i*" -exec ls -l \;
+$ find . -type f -size +7k -name "*i*" -exec ls -l \;
+
+# List processes/programs running in background
+# Use "&" to run in background, OR hitting "control-Z" while a process is running will save it to the background
+$ find / -ctime -1 &
+# search for words inside a file 
+grep 
+$ grep husky dogs.txt
+>>>husky
+
+# Use ls to print in a standard format
+$ find / -ls
+
+# search for characers in file without knowing wheter it's uppercase or not
+$ grep -i wed days.txt
+>>>wed
+
+# Search for text or character WITHIN A FILE - can also be used to find text recursively using -r
+grep
+
+# View contents in a tar file e.g. we're looking for a text file with a 1 in it. 
+$ grep -Hna '1' aaaa.tar
+
+# Decompress a file 
+gunzip 
+$ gunzip file.txt
+
+# Decompress to another file
+$ gunzip -c file.txt > new_file.txt
+
+# Compress a file 
+gzip
+$ gzip -k filename.txt (-k for keep)
+>>>filename.txt filename.txt.gz
+
+# gzip -c filename.txt.gz > newfilename.txt
+>>> filename.txt newfilename.txt
+
+# Decompress a file 
+-d 
+$ gzip filename.txt.gz
+>>> gzip -d filename.txt
+
+# Compress a file
+gzip (-k keeps original file otherwise it overwrites it)
+$ gzip -k file.txt
+
+# Displays first 10 lines of a file
+head
+$ head file.txt
+>>total 1436
+drwxr-xr-x  19 root root    4096 Mar 25 18:24 .
+drwxr-xr-x  19 root root    4096 Mar 25 18:24 ..
+lrwxrwxrwx   1 root root       7 Aug 19  2021 bin -> usr/bin
+drwxr-xr-x   2 root root    4096 Aug 19  2021 boot
+drwxr-xr-x   8 root root    2840 Mar 25 18:24 dev
+drwxr-xr-x  95 root root    4096 Mar 25 18:24 etc
+drwxr-xr-x   3 root root    4096 Dec 15 17:40 home
+-rwxr-xr-x   3 root root 1392928 Dec 13 20:18 init
+lrwxrwxrwx   1 root root       7 Aug 19  2021 lib -> usr/lib
+
+# Prints first 10 lines of a file
+head 
+
+# Prints out past commands - each command has an ID number next to it - to run past command use "!"  and ID Number e.g !245
+history 
+
+# user id information
+$ id
+>>>uid=1000(druestaples) gid=1000(druestaples) groups=1000(druestaples),4(adm),20(dialout),24(cdrom),25(floppy),27(sudo),29(audio),30(dip),44(video),46(plugdev),117(netdev),1001(docker)
+
+$ jobs
+>>>[2]-  Stopped                 top -o %MEM
+[3]+  Stopped                 top
+
+jobs -l
+>>[2]-  5442 Stopped (signal)        top -o %MEM
+[3]+  5467 Stopped (signal)        top
+
+# Stops/terminates a process in a variety of ways
+kill
+$ kill -9 160
+>>>  PID TTY          TIME CMD
+ 5415 pts/2    00:00:00 ps
+# Before 
+  PID TTY          TIME CMD
+  160 pts/2    00:00:13 bash
+ 5415 pts/2    00:00:00 ps
+
+# Stops/terminates multiple processes in a variety of ways
+killall
+$ killall -9 /init
+>>>115 pts/0    Ssl+   0:45 /mnt/wsl/docker-desktop/docker-desktop-proxy --distro-name Ubuntu --docker-desktop-root /mnt/wsl/do
+# Before
+    1 ?        Sl     0:00 /init
+  113 ?        Ss     0:00 /init
+  114 ?        S      0:00 /init
+  115 pts/0    Ssl+   0:45 /mnt/wsl/docker-desktop/docker-desktop-proxy --distro-name Ubuntu --docker-desktop-root /mnt/wsl/do
+  125 ?        S      0:00 /init
+
+# Display a file with a lot of text in an easy human-readable format (easy scrolling with up/down arrows)
+less 
+$ less file.txt 
+
+# Creating Links between files 
+# For example we could have a python file that can point to different versions  
+# Hard Link: I can make changes to either file and it'll update the other
+# If I delete the original file, the hard linked file will still be linked to original file in memory
+$ ln original.txt new.txt 
+# If I delete the original file, the soft linked file will throw an error when trying to run - no memory linkage
+$ ln -s original.txt new.txt
+
+# list files and directories 
+$ ls 
+>>linux_commands_reference.txt
+
+# list a file or folder starting with d and two immediate charaters (doesn't matter what they are), then a dot (.), then anything can come afterwards
+$ ls d??.*
+>> dog.txt
+
+# List files by file name 
+$ ls do*
+>>>dog.txt  dogs.txt
+
+# Displays a manual for any command 
+man
+$ man whoami
+>>WHOAMI(1)                  User Commands                  WHOAMI(1)  
+NAME       whoami - print effective userid
+SYNOPSIS
+       whoami [OPTION]...
+
+# Create directory
+$ mkdir my_new_dir
+
+# Create n directories
+>>>mkdir {1..365}
+
+# Move file or folder, can also be used to rename file or folder
+mv file1 newfolder/
+$ ls newfolder
+>>> file1
+
+# Prints calendar
+$ ncal 
+>>>    April 2022        
+Su     3 10 17 24
+Mo     4 11 18 25
+Tu     5 12 19 26
+We     6 13 20 27
+Th     7 14 21 28
+Fr  1  8 15 22 29
+Sa  2  9 16 23 30
+
+# A simple text editor
+nano
+$ nano bash.rc 
+>>>1 echo "hello"
+sleep 22
+echo "goodbye"
+
+# Use nohup to run a process even if it gets disconnected (whether the user needs to disconnect or something breaks the connection)
+$ nohup longpythonprogram.py
+>>> # Code running 
+# Exit and re-enter terminal 
+$ jobs 
+>>> longpythonprogram.py running 
+
+# Opens up a file eg. .txt, .png, .csv, etc. - Needs to be installed first if using Ubuntu
+open
+
+# Change my password
+$ passwd 
+>>> Enter user password:
+>>> Enter new pasword (for current user):
+>>> Confirm new password (for current user):
+
+# Change another users password - USE SUDO!!!
+$ passwd dade
+>>>passwd: You may not view or modify password information for dade.
+# sudo passwd dade
+>>> Enter root password:
+>>> Enter new pasword (for dade):
+>>> Confirm new password (for dade):
+
+# Piping -> chaining commands together
+|
+$ ls -l | wc >> list_wc.txt
+# this example lists the current directory in a long format, then finds the word count (ie, lines, word count, bytes, file name) and saves to file
+
+# prints all environment Variables
+$ printenv
+
+# Process Status: Displays a screenshot of processes
+ps 
+>>> PID TTY          TIME CMD
+  160 pts/2    00:00:13 bash
+ 4737 pts/2    00:00:00 less
+ 5267 pts/2    00:00:00 ps
+$ ps -ax (see every process on the system)
+$ ps -axu (see every process on the system)
+$ ps -axw (some processes have long COMMANDS so their names are cut out, start a new line, but still limited width)
+$ ps -axww (start a new line, use two w's for unlimited width)
+
+# Return path location
+$ pwd
+>>/mnt/c/Users/drues/projects/linux_practice
+
+# rm empty directory or file
+$ rm example_dr
+
+# rm nested directory and its contents
+$ rm -r example_dir
+
+# Remove a file or folder (can remove nested folders and files with recursive flag -r)                                       
+rm
+
+# Delete directory
+$ rmdir my_new_dir
+
+# Delay for a x amount of time 
+sleep
+$ sleep 30 
+>>> # Delays 30 seconds, usually used before executing some function
+
+# Sorts in alphabetical order
+sort
+$ sort dog.txt
+>>dane
+husky
+pit bull
+
+# Sort in numerical order
+# sort -n nums.txt
+1
+2
+3
+
+# Sort in reverse numerical order
+# sort -nr nums.txt
+3
+2
+1
+
+# Sort only unique values
+# sort -nr nums.txt
+>
+1
+2
+(Before:)
+1
+1
+2
+
+# Sort values, get unique values, sort again by quantity
+sort dog.txt | uniq -c | sort -n
+>>>   6 great dane
+      5 huskys
+      3 pitbull
+      2 retriever
+
+# Very useful command for sorting a file alphabetically, numerically, etc.
+sort 
+
+# pyenv activate environment
+$ source ~/temporary/venv36/bin/activate
+
+# Su is used for switching users 
+# Login as root. Use su - to login in to root and be in roots home directory. Use su to pretend to login to root and be in your own home directory. 
+$ sudo su -
+# Type password
+# You are now root 
+# To go back to user, type exit and hit enter
+root@MSI:~# exit
+druestaples@MSI:$
+# Add user - login as root first
+$ sudo adduser skullbock
+# Change Password
+$ passwd skullbock
+>>>Enter Password:******
+Re-Enter Passord:******
+$ su - skullbock
+# Use a dash or tick ("-") to login to another user or you can use -l
+
+# Change Group 
+$ sudo chgrp dade file.txt 
+
+# Change Ownership of User and Group for a file 
+# sudo chown milo:dade file.txt 
+
+# Use -R to change group user recursively 
+$ sudo chown -R milo file.txt 
+
+# root access - some commands need root permission to run
+sudo
+
+# Sudo acts as root user 
+# Run commands as root user (Super User DO)
+sudo 
+$ nano /etc/hosts 
+>>> # Shows message at the end of file " [ File '/etc/hosts' is unwritable ]"
+# Instead include sudo to write to file 
+$ sudo nano /etc/hosts 
+
+# Displays last ten rows of file
+tail
+$ tail some_file.txt
+dr-xr-xr-x 269 root root       0 Mar 25 18:24 proc
+drwx------   2 root root    4096 Aug 19  2021 root
+drwxr-xr-x   7 root root     200 Mar 27 01:20 run
+lrwxrwxrwx   1 root root       8 Aug 19  2021 sbin -> usr/sbin
+drwxr-xr-x   6 root root    4096 Aug 19  2021 snap
+drwxr-xr-x   2 root root    4096 Aug 19  2021 srv
+dr-xr-xr-x  11 root root       0 Mar 25 18:24 sys
+drwxrwxrwt   2 root root    4096 Mar 27 01:21 tmp
+drwxr-xr-x  15 root root    4096 Aug 19  2021 usr
+drwxr-xr-x  13 root root    4096 Aug 19  2021 var
+
+# Prints last five lines in a file
+tail
+
+# Compress nested folders 
+tar
+$ tar filename.txt
+
+# Archive (group) and compress multiple files together (tape archive)
+tar (-c for create, -z for gzip compression, -f for adding file to archive)
+$ tar -czf my_archive.tar.gz file1.txt file2.txt
+
+# Decompress and unarchive files 
+(-x for extract)
+$ tar -xf my_archive.tar.gz
+
+# List files inside of an archive
+$ tar -tf archive.tar
+>>> hello.txt
+goodbye.txt
+
+# View processes in real time
+$ top
+>>>USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.0   1900  1168 ?        Sl   Mar25   0:00 /init
+root       113  0.0  0.0   1752    68 ?        Ss   Mar25   0:00 /init
+root       114  0.0  0.0   1752    76 ?        S    Mar25   0:00 /init
+root       115  0.0  0.7 1679492 30124 pts/0   Ssl+ Mar25   0:45 /mnt/wsl/docker-desktop/docker-desktop-proxy --distro-name Ubuntu -
+root       125  0.0  0.0   1752    76 ?        S    Mar25   0:00 /init
+druesta+   126  0.0  1.2 765544 48948 pts/1    Ssl+ Mar25   2:29 docker serve --address unix:///home/druestaples/.docker/run/dtop - 22:29:01 up 7 days,  4:04,  0 users,  load average: 0.00, 0.00, 0.00
+Tasks:  11 total,   1 running,   9 sleeping,   1 stopped,   0 zombie
+%Cpu(s):  0.1 us,  0.0 sy,  0.0 ni, 99.9 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem :   3839.7 total,   1915.2 free,    618.7 used,   1305.8 buff/cache
+MiB Swap:   1024.0 total,   1024.0 free,      0.0 used.   2640.2 avail Mem
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                  
+    1 root      20   0    1900   1168   1020 S   0.0   0.0   0:00.35 init
+  113 root      20   0    1752     68      0 S   0.0   0.0   0:00.00 init
+  114 root      20   0    1752     76      0 S   0.0   0.0   0:00.01 init
+  115 root      20   0 1679492  30124  13292 S   0.0   0.8   0:45.29 docker-desktop-
+  125 root      20   0    1752     76      0 S   0.0   0.0   0:00.00 init
+  126 druesta+  20   0  765544  48948  30120 S   0.0   1.2   2:29.72 docker
+  158 root      20   0    1752     68      0 S   0.0   0.0   0:00.00 init
+  159 root      20   0    1752     76      0 S   0.0   0.0   0:11.14 init
+  160 druesta+  20   0   10432   5548   3472 S   0.0   0.1   0:13.10 bash
+ 4737 druesta+  20   0    7592   2624   2344 T   0.0   0.1   0:00.10 less
+ 5304 druesta+  20   0   10872   3752   3244 R   0.0   0.1   0:00.01 top
+
+# Display a proccess by PID
+$ top -p 115
+>>>115 root      20   0 1679492  30124  13292 S   0.0   0.8   0:45.29 docker-desktop-
+
+# Display live process and sort by Memory
+$ top -o +%MEM
+
+# Updates timestamp of file and can also create a file
+$ touch ex_file
+
+# Create a python file, save some code inside, then run it
+touch snake.py
+echo "print('hello world')" > snake.py
+python3 snake.py
+
+# Create multple files of same file type - DO NOT INCLUDE TEXT FILES
+{}
+$ touch {run,jump,swim}.txt
+>>>x.txt y.txt z.txt
+
+# Create n files
+$touch {1..2}.txt
+>>>1.txt 2.txt
+
+# A linux command can be categorized in one of 4 different types
+1.) and executable 
+2.) a shell built-in program
+3.) a shell function
+4.) an alias
+$ type ls
+>>>ls is aliased to `ls --color=auto'
+$ type find
+>>>find is hashed (/usr/bin/find)
+$ type pwd
+>>>pwd is a shell builtin
+
+# Change permissions for users, groups and other users 
+# Refer to Linux Handbook for the permission codes 
+$ umask 
+>>>002
+# Above is the same as below, but the numbers 0,0,and 2 refer to the permision types eg. rwx, rx, r, etc. 
+$ umask -S 
+>>>u=rwx,g=rwx,o=rx
+
+# umask vs chmod
+# chmod, changes the mode permissions for a specific user, group, other users for the ALREADY EXISTED FILES
+# umask, changes the mode permissisons for files/folders that WILL BE CREATED IN THE FUTURE
+
+# shows and counts duplicates
+$ uniq -c dog.txt 
+>>>   1 retriever
+      1 pitbull
+      1 husky
+      2 great dane
+
+# Shows word count of file (lines in file, words in file, byte quantity, file name)
+wc 
+$wc dog.txt
+>>4  6 36 dog.txt
+
+# Word count: prints "number of lines", "number of words", "byte quantity"
+wc 
+
+# Find the locations of commands 
+which 
+$ which docker 
+>>> /usr/bin/docker
+
+# Shows who is logged in
+who 
+$ who -q 
+>>> users=0
+# Above output makes sense because I am thee and only root user
+
+# List of users and their activities
+$ who
+>>> 10:28:46 up  1:03,  0 users,  load average: 0.00, 0.00, 0.00
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+
+# Shows who is logged in (usefor for scripting)
+$ whoami
+>>druestaples
+
+# Use xargs to chain commands together, ie the output of one command will be the input to another
+xargs
+$ find . -size +2k | xargs ls -al 
+# Another example below. 
+# This first command won't work 
+$ find *s.??? | xargs cat
+# or 
+$ find *s.txt | xargs cat
