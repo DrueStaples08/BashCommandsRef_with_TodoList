@@ -23,6 +23,8 @@ $ cat newfile
 
 ### References:
 https://www.freecodecamp.org/news/the-linux-commands-handbook/#the-linux-chown-command
+
 https://www.youtube.com/watch?v=ZtqBQ68cfJc&t=1073s
+
 https://www.youtube.com/watch?v=SPwyp2NG-bE&t=639s
 
