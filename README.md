@@ -7,7 +7,7 @@ This is intended to be for programmers who want to learn Linux and Bash Scriptin
 $ mkdir MyTodoList | cd MyTodoList
 
 ### Clone repo
-$ git clone ....
+$ git clone https://github.com/DrueStaples08/BashCommandsRef_with_TodoList.git
 
 ### To add item to file 
 $ ./todolist.sh list_file_name item_to_add
