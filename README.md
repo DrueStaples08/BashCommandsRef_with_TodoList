@@ -1,5 +1,5 @@
 # Bash Command Reference File for Linux Kernel with a To-do Bash Script
-This is intended for anyone who wants to learn Linux and Bash Scripting. Included is a list-maker written in bash called 'todolist.sh'. Additionally there is Reference Sheet for the main commands used.
+This is intended for anyone who wants to learn Linux and Bash Scripting. Included is a list-maker written in Bash called 'todolist.sh'. Additionally there is reference sheet for the main commands used.
 
 ## Get Started 
 
